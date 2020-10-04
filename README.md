@@ -1,24 +1,7 @@
 # README
+Ruby on Rails web application to manage todo lists.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## How to compile
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Run `bundle install`
+1. Run `rails s`
