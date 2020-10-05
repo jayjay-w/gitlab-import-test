@@ -12,3 +12,16 @@ todo_build:
     - docker pull jayjoshua/todo_app:latest || true
     - docker build --cache-from jayjoshua/todo_app:latest --tag jayjoshua/todo_app:$CI_COMMIT_SHA --tag jayjoshua/todo_app:latest .
     - docker push jayjoshua/todo_app:latest
+
+todo_deploy:
+  tags:
+    - todo_host
+  stage: deploy
+  needs:
+    - todo_build
+  script:
+    - docker login -u jayjoshua -p$DOCKER_PASSWORD
+    - docker pull jayjoshua/todo_app:latest
+    - docker stop todo || true
+    - docker rm todo || true
+    - docker run --name todo -d -p 8080:3000 jayjoshua/todo_app:latest 
