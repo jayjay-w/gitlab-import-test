@@ -13,7 +13,7 @@ cache:
 before_script:
   - ruby -v  # Print out ruby version for debugging
   # Uncomment next line if your rails app needs a JS runtime:
-  # - apt-get update -q && apt-get install nodejs -yqq
+  - apt-get update -qy && apt-get install nodejs -yqq
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
 test:
@@ -21,9 +21,9 @@ test:
   script:
     - apt-get update -qy
     - apt-get install -y nodejs
-    - bundle install --path /cache
-    - bundle exec rake db:create RAILS_ENV=test
-    - bundle exec rake test
+    - bin/rails db:create RAILS_ENV=test
+    - bin/rails db:migrate
+    - bin/rails test
 
 production:
   stage: deploy
