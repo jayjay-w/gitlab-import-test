@@ -12,6 +12,7 @@ todo_build:
     - docker pull jayjoshua/todo_app:latest || true
     - docker build --cache-from jayjoshua/todo_app:latest --tag jayjoshua/todo_app:$CI_COMMIT_SHA --tag jayjoshua/todo_app:latest .
     - docker push jayjoshua/todo_app:latest
+    - docker push jayjoshua/todo_app:$CI_COMMIT_SHA
 
 todo_deploy:
   tags:
