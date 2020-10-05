@@ -7,13 +7,39 @@
       
       <% if list.completed %>
         <tr class="table-secondary">
-          <td class="striked-text"><%= link_to list.description, edit_list_path(list) %></td>     
-          <td><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td width="80%" class="striked-text"><%= link_to list.description, edit_list_path(list) %></td>  
+          <td>
+              <center>
+                <%= form_for(list) do |f| %>
+                  <%= f.text_field :description, type: 'hidden' %>
+                  <%= f.check_box :completed, :checked => false, :style => 'visibility: hidden' %>
+                  <%= f.submit "Not done", class: 'btn btn-outline-secondary btn btn-sm' %>
+                <% end %>
+              </center>
+          </td>   
+          <td>
+            <center>
+              <%= link_to 'Delete', list, class: 'btn btn-outline-danger btn btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+            </center>
+          </td>
         </tr>
       <% else %>
         <tr>
-          <td><%= link_to list.description, edit_list_path(list) %></td>
-          <td><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td width="80%"><%= link_to list.description, edit_list_path(list) %></td>
+          <td>
+            <center>
+                <%= form_for(list) do |f| %>
+                  <%= f.text_field :description, type: 'hidden' %>
+                  <%= f.check_box :completed, :checked => true, :style => 'visibility: hidden' %>
+                  <%= f.submit "Done", class: 'btn btn-outline-secondary btn btn-sm' %>
+                <% end %>
+              </center>
+          </td>  
+          <td>
+            <center>
+              <%= link_to 'Delete', list, class: 'btn btn-outline-danger btn btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+            </center>
+          </td>
         </tr>
       <% end %>
     <% end %>
