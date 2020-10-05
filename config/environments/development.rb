@@ -28,6 +28,9 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # disable yarn integrity check
+  config.webpacker.check_yarn_integrity = false
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
