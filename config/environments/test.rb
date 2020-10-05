@@ -24,7 +24,7 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
   config.cache_store = :null_store
-
+  config.hosts << "jayjoshua-todo.sr.gitlab.support"
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
