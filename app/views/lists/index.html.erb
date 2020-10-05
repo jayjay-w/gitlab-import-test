@@ -48,4 +48,5 @@
 
 <br>
 
-<%= link_to 'New List', new_list_path %>
+<%= link_to 'Delete Done Items', home_delete_done_path, data: { confirm: 'Are you sure you want to delete all done items?' }  %> | 
+<%= link_to 'Delete All Items', home_delete_all_path, data: { confirm: 'Are you sure you want to delete all items?' }  %>
