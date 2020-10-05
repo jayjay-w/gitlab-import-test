@@ -3,17 +3,6 @@
 # https://hub.docker.com/r/library/ruby/tags/
 image: "ruby:2.7.1"
 
-# Pick zero or more services to be used on all builds.
-# Only needed when using a docker container to run your tests in.
-# Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
-services:
-#  - mysql:latest
-#  - redis:latest
-  - postgres:latest
-
-variables:
-  POSTGRES_DB: database_name
-
 # Cache gems in between builds
 cache:
   paths:
@@ -27,28 +16,17 @@ before_script:
   # - apt-get update -q && apt-get install nodejs -yqq
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
-# Optional - Delete if not using `rubocop`
-rubocop:
+test:
+  stage: test
   script:
-    - rubocop
+    - apt-get update -qy
+    - apt-get install -y nodejs
+    - bundle install --path /cache
+    - bundle exec rake db:create RAILS_ENV=test
+    - bundle exec rake test
 
-rspec:
-  script:
-    - rspec spec
-
-rails:
-  variables:
-    DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
-  script:
-    - rails db:migrate
-#    - rails db:seed
-    - rails test
-
-# This deploy job uses a simple deploy flow to Heroku, other providers, e.g. AWS Elastic Beanstalk
-# are supported too: https://github.com/travis-ci/dpl
-deploy:
-  type: deploy
-  environment: production
+production:
+  stage: deploy
   script:
     - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
+    - dpl --provider=heroku --app=gitlab-ci-ruby-test-prod --api-key=$HEROKU_PRODUCTION_API_KEY
