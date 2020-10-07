@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+    todo_app:
+        container_name: app_server
+        image: jayjoshua/todo_app:latest
+        networks: 
+            - todo_network
+        ports: 
+            - "3000:3000"
+        restart: always
+
     postgres:
         container_name: pg_server
         image: postgres
@@ -16,13 +25,18 @@ services:
             - "5432:5432"
         restart: always
 
-    todo_app:
-        container_name: app_server
-        image: jayjoshua/todo_app:latest
+    pgadmin:
+        container_name: pgadmin
+        image: dpage/pgadmin4
+        environment: 
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@email.com}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+        volumes: 
+            - pgadmin:/root/.pgadmin
+        ports:
+            - "${PGADMIN_PORT:-5050}:80"
         networks: 
             - todo_network
-        ports: 
-            - "3000:3000"
         restart: always
 
 networks: 
